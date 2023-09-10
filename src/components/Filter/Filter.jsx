@@ -1,20 +1,28 @@
-import { Label, Input, SearchIIcon } from './Filter.styled';
-import { useDispatch } from 'react-redux';
-import { changeFilter } from 'redux/filterSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter } from 'redux/contacts/selectors';
+import { setFilter } from 'redux/contacts/filterSlice';
+import { FilterInput } from './Filter.styled';
 
-export function Filter() {
+const Filter = () => {
   const dispatch = useDispatch();
+  const filter = useSelector(selectFilter);
+  const handleFilterChange = e => {
+    dispatch(setFilter(e.currentTarget.value));
+  };
 
-  
   return (
-    <Label>
-      Find contacts by name:
-      <Input
+    <label>
+      Find contacts by name
+      <FilterInput
         type="text"
-        onChange={e => dispatch(changeFilter(e.target.value))}
-        placeholder="Search contact"
+        value={filter}
+        name="filter"
+        onChange={e => {
+          handleFilterChange(e);
+        }}
       />
-      <SearchIIcon />
-    </Label>
+    </label>
   );
-}
+};
+
+export default Filter;
